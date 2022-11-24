@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export const addContactSchema = z.object({
   body: z.object({
-    id: z.string({ required_error: 'ID is required !' }),
     name: z
       .string({ required_error: 'name is required !' })
       .min(3, 'Name must be more than 2 char'),
@@ -18,7 +17,6 @@ export const addContactSchema = z.object({
 
 export const updateContactSchema = z.object({
   body: z.object({
-    id: z.string({ required_error: 'ID is required !' }),
     name: z
       .string({ required_error: 'name is required !' })
       .min(3, 'Name must be more than 2 char'),
@@ -35,6 +33,20 @@ export const updateContactSchema = z.object({
   }),
 });
 
-export type ContactSchemaType = z.infer<typeof addContactSchema>;
+export const deleteContactSchema = z.object({
+  params: z.object({
+    id: z.string({ required_error: 'Please send id in the params' }),
+  }),
+});
 
-export type updateContactSchemaType = z.infer<typeof updateContactSchema>;
+export const getOneContactSchema = z.object({
+  query: z.object({
+    id: z.string({ required_error: 'Please send id in the params' }),
+  }),
+});
+
+export type ContactSchemaType = z.infer<typeof updateContactSchema>['params'];
+
+export type GetOneContactSchemaType = z.infer<
+  typeof getOneContactSchema
+>['query'];
